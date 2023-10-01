@@ -11,16 +11,27 @@ namespace NumbersGame
                 Console.WriteLine("Wohoo! Du klarade det!");
                 return 0;
             }
-            else if (guessInt > randomNumber)
+            else if ((guessInt /2) > randomNumber)
+            {
+                Console.WriteLine("Oj, du gissade alldeles för högt!");
+                
+            }
+            else if ((guessInt) > randomNumber)
             {
                 Console.WriteLine("Tyvärr, du gissade för högt!");
-                return 1;
+
+            }
+            else if ((guessInt * 2) < randomNumber)
+            {
+                Console.WriteLine("Oj, du gissade alldeles för lågt!");
+
             }
             else
             {
-                Console.WriteLine("Tyvärr, du gissade för lågt!");
+                Console.WriteLine("Tyvärr, det var lite för lågt!");
+             
             }
-            return 2;
+            return 1;
         }
         public static string difficulty(int difficulty)
         {
@@ -42,62 +53,85 @@ namespace NumbersGame
         }
         static void Main(string[] args)
         {
-            Console.WriteLine("Välkommen! Jag tänker på ett nummer. Kan du gissa vilket?");
-            Console.WriteLine("Välj svårighetsgrad:");
-            Console.WriteLine(difficulty(1));
-            Console.WriteLine(difficulty(2));
-            Console.WriteLine(difficulty(3));
-
-            int difficultyInt = int.Parse(Console.ReadLine());
-            Random random = new Random();
-            int randomNumber = 0;
-            int guessCounter = 0;
-
-            switch (difficultyInt)
+            bool replayBool = true;
+            int difficultyInt = 0;
+            while (replayBool)
             {
-                case 1:
-                    randomNumber = random.Next(0, 20);
-                    guessCounter = 5;
-                    Console.WriteLine("Du har valt svårighetsgrad 1. Varssågod och börja gissa:");
-                    break;
-                case 2:
-                    random = new Random();
-                    randomNumber = random.Next(0, 30);
-                    guessCounter = 4;
-                    Console.WriteLine("Du har valt svårighetsgrad 2. Varssågod och börja gissa:");
-                    break;
-                case 3:
-                    random = new Random();
-                    randomNumber = random.Next(0, 50);
-                    guessCounter = 4;
-                    Console.WriteLine("Du har valt svårighetsgrad 3. Varssågod och börja gissa:");
-                    break;
-                default:
-                    Console.WriteLine("Jag förstod inte riktigt vad du menade, välj svårighetsgrad mellan 1-3.");
-                    difficultyInt = int.Parse(Console.ReadLine());
-                    break;
-            }
-            
-            while (guessCounter != 0)
-            {
+                Console.WriteLine("Välkommen! Jag tänker på ett nummer. Kan du gissa vilket?");
+                Console.WriteLine("Välj svårighetsgrad:");
+                Console.WriteLine(difficulty(1));
+                Console.WriteLine(difficulty(2));
+                Console.WriteLine(difficulty(3));
 
-            int guessInt = int.Parse(Console.ReadLine());
+                difficultyInt = int.Parse(Console.ReadLine());
+                
+                Random random = new Random();
+                int randomNumber = 0;
+                int guessCounter = 0;
 
-                if (CheckGuess(randomNumber, guessInt) != 0)
+                switch (difficultyInt)
                 {
-                    guessCounter--;
-                    if (guessCounter == 5)
+                    case 1:
+                        randomNumber = random.Next(0, 20);
+                        guessCounter = 5;
+                        Console.WriteLine("Du har valt svårighetsgrad 1. Varssågod och börja gissa:");
+                        break;
+                    case 2:
+                        random = new Random();
+                        randomNumber = random.Next(0, 30);
+                        guessCounter = 4;
+                        Console.WriteLine("Du har valt svårighetsgrad 2. Varssågod och börja gissa:");
+                        break;
+                    case 3:
+                        random = new Random();
+                        randomNumber = random.Next(0, 50);
+                        guessCounter = 4;
+                        Console.WriteLine("Du har valt svårighetsgrad 3. Varssågod och börja gissa:");
+                        break;
+                    default:
+                        Console.WriteLine("Jag förstod inte riktigt vad du menade, välj svårighetsgrad mellan 1-3.");
+                        difficultyInt = int.Parse(Console.ReadLine());
+                        break;
+                }
+
+                while (guessCounter != 0)
+                {
+
+                    int guessInt = int.Parse(Console.ReadLine());
+
+                    if (CheckGuess(randomNumber, guessInt) != 0)
                     {
-                        Console.WriteLine("Tyvärr, du lyckades inte gissa talet på fem försök!");
+                        guessCounter--;
+                        if (guessCounter == 0)
+                        {
+                            Console.WriteLine($"Tyvärr, du lyckades inte gissa talet på fem försök! Siffran jag tänkte på var {randomNumber}\n");
+                        }
+                    }
+                    else
+                    {
+                        guessCounter = 0;
+                    }
+
+                }
+                Console.Write("Vill du spela igen? (Ja/Nej): ");
+                string replayString = Console.ReadLine();
+                while (replayString != "Ja" || replayString != "Nej")
+                {
+                    if (replayString == "Ja")
+                    {
+                        Console.WriteLine("\nDå kör vi igen :)\n");
+                        break;
+                    }
+                    else if (replayString == "Nej")
+                    {
+                        Console.WriteLine("\nTack för att du spelade!\n");
+                        replayBool = false;
+                        break;
                     }
                 }
-                else
-                {
-                    guessCounter = 0;
-                }
+                
 
             }
-            
 
             }
         }
